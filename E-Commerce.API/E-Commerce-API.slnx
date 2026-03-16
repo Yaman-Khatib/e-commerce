@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../E-Commerce.Application/E-Commerce.Application.csproj" Id="2245b84a-3d01-4b42-92c5-6c1eb16beae1" />
+  <Project Path="../E-Commerce.Domain/E-Commerce.Domain.csproj" Id="f02f910d-8613-4488-962a-1efe38b44bab" />
+  <Project Path="../E-Commerce.Extensions/E-Commerce.Extensions.csproj" Id="dd5f50ba-2cbb-413b-809d-fe435fa69871" />
+  <Project Path="../E-Commerce.Infrastructure/E-Commerce.Infrastructure.csproj" Id="9d3ec7c0-9321-4885-a2bf-bcc6a04aa35e" />
+  <Project Path="E-Commerce.API.csproj" />
+</Solution>

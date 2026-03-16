@@ -1,0 +1,110 @@
+# ====================
+# Visual Studio / Rider / VSCode
+# ====================
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ====================
+# Build output
+# ====================
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# ====================
+# NuGet
+# ====================
+*.nupkg
+*.snupkg
+# NuGet v3 cache
+**/packages/*
+# Ignore NuGet package folders in solution directories
+!**/packages/build/
+!**/packages/repositories.config
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ====================
+# EF Core Migrations
+# ====================
+# Only track migration code, ignore snapshot binaries
+**/Migrations/*.Designer.cs
+**/Migrations/*.csproj.user
+
+# ====================
+# User secrets (ASP.NET Core)
+# ====================
+secrets.json
+*.pfx
+*.key
+*.pem
+
+# ====================
+# Logs
+# ====================
+*.log
+Logs/
+log/
+
+# ====================
+# Coverage / Test
+# ====================
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+*.vsmdi
+*.testsettings
+*.vsix
+*.ncrunch*
+*.DotCover*
+
+# ====================
+# Docker
+# ====================
+docker-compose.override.yml
+**/docker-compose.override.yml
+**/docker-compose.override.*.yml
+**/.docker/
+**/bin/**/docker/
+**/obj/**/docker/
+
+# ====================
+# Redis / cache files
+# ====================
+*.rdb
+*.aof
+
+# ====================
+# OS generated
+# ====================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.DS_Store
+*.AppleDouble
+*.LSOverride
+
+# ====================
+# Other temporary files
+# ====================
+*.tmp
+*.swp
+*.lock
+*.bak
+*.orig
+
+# ====================
+# Dotnet local tools / temp files
+# ====================
+.tools/
