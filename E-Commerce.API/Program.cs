@@ -1,4 +1,5 @@
 
+using E_Commerce_API.Extensions;
 using E_Commerce.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -69,6 +70,8 @@ namespace E_Commerce_API
             builder.Services.AddAuthorization();
 
             var app = builder.Build();
+
+            app.EnsureDatabaseAndSeedAsync().GetAwaiter().GetResult();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

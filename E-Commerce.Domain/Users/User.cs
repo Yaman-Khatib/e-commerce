@@ -1,3 +1,5 @@
+using E_Commerce.Domain.Orders;
+
 namespace E_Commerce.Domain.Users;
 
 public class User
@@ -13,6 +15,9 @@ public class User
     public string Email { get; private set; } = string.Empty;
 
     public string PasswordHash { get; private set; } = string.Empty;
+
+    private readonly List<Order> _orders = new();
+    public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();
 
     private User()
     {

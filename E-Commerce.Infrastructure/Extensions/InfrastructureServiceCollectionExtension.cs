@@ -1,4 +1,5 @@
-﻿using E_Commerce.Infrastructure.Context;
+using E_Commerce.Infrastructure.Context;
+using E_Commerce.Infrastructure.Seeding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ namespace E_Commerce.Infrastructure.Extensions
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<IDataSeeder, DataSeeder>();
             return services;
         }
     }
