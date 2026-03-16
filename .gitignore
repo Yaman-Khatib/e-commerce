@@ -108,3 +108,4 @@ $RECYCLE.BIN/
 # Dotnet local tools / temp files
 # ====================
 .tools/
+/E-Commerce.Infrastructure/dotnet-tools.json
