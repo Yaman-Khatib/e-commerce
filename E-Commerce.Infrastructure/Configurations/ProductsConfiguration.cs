@@ -15,6 +15,9 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Id)
             .ValueGeneratedNever();
 
+        builder.Property(p => p.CreatedByUserId)
+            .IsRequired();
+
         builder.Property(p => p.Name)
             .IsRequired()
             .HasMaxLength(200);
@@ -27,6 +30,11 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.StockQuantity)
             .IsRequired();
+
+        builder.HasOne(p => p.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(p => p.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

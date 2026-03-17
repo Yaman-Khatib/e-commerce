@@ -1,8 +1,13 @@
+using E_Commerce.Domain.Users;
+
 namespace E_Commerce.Domain.Products;
 
 public class Product
 {
     public Guid Id { get; private set; }
+
+    public Guid CreatedByUserId { get; private set; }
+    public User CreatedByUser { get; private set; } = null!;
 
     public string Name { get; private set; } = string.Empty;
 
@@ -17,10 +22,15 @@ public class Product
     {
     }
 
-    public Product(Guid id, string name, string? description, decimal price, int stockQuantity)
+    public Product(Guid id, Guid createdByUserId, string name, string? description, decimal price, int stockQuantity)
     {
         if (id == Guid.Empty)
             throw new ArgumentException("Id must be a non-empty GUID.", nameof(id));
+
+        if (createdByUserId == Guid.Empty)
+            throw new ArgumentException("CreatedByUserId must be a non-empty GUID.", nameof(createdByUserId));
+
+        CreatedByUserId = createdByUserId;
 
         SetName(name);
         SetDescription(description);

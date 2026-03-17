@@ -17,6 +17,7 @@ public sealed class ProductService(IApplicationDbContext dbContext) : IProductSe
             .Select(p => new ProductResponse
             {
                 Id = p.Id,
+                CreatedByUserId = p.CreatedByUserId,
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
@@ -35,6 +36,7 @@ public sealed class ProductService(IApplicationDbContext dbContext) : IProductSe
             .Select(p => new ProductResponse
             {
                 Id = p.Id,
+                CreatedByUserId = p.CreatedByUserId,
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
@@ -43,10 +45,11 @@ public sealed class ProductService(IApplicationDbContext dbContext) : IProductSe
             .SingleOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<ProductResponse> CreateAsync(CreateProductRequest request, CancellationToken cancellationToken = default)
+    public async Task<ProductResponse> CreateAsync(Guid createdByUserId, CreateProductRequest request, CancellationToken cancellationToken = default)
     {
         var product = new Product(
             Guid.NewGuid(),
+            createdByUserId,
             request.Name,
             request.Description,
             request.Price,
@@ -94,6 +97,7 @@ public sealed class ProductService(IApplicationDbContext dbContext) : IProductSe
         new()
         {
             Id = product.Id,
+            CreatedByUserId = product.CreatedByUserId,
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,

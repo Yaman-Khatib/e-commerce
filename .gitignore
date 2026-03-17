@@ -109,3 +109,4 @@ $RECYCLE.BIN/
 # ====================
 .tools/
 /E-Commerce.Infrastructure/dotnet-tools.json
+/.dotnet_home/.dotnet

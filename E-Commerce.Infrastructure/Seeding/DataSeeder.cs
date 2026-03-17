@@ -21,22 +21,24 @@ public class DataSeeder(ApplicationDbContext dbContext, IPasswordHashService pas
             CreateUser("user3", "user3@example.com", "Amr","Haddad",hashedPassword)
         };
 
+        await dbContext.Users.AddRangeAsync(users, cancellationToken);
+
+        var creatorUserId = users[0].Id;
 
         var products = new List<Product>
         {
-            new(Guid.NewGuid(), "Laptop", "14-inch laptop", 999.99m, 15),
-            new(Guid.NewGuid(), "Mouse", "Wireless mouse", 24.99m, 120),
-            new(Guid.NewGuid(), "Keyboard", "Mechanical keyboard", 89.99m, 60),
-            new(Guid.NewGuid(), "Monitor", "27-inch monitor", 219.99m, 35),
-            new(Guid.NewGuid(), "Headphones", "Over-ear headphones", 59.99m, 80),
-            new(Guid.NewGuid(), "Webcam", "1080p webcam", 39.99m, 50),
-            new(Guid.NewGuid(), "USB-C Cable", "1m USB-C cable", 9.99m, 200),
-            new(Guid.NewGuid(), "Dock", "USB-C docking station", 129.99m, 25),
-            new(Guid.NewGuid(), "SSD", "1TB NVMe SSD", 109.99m, 40),
-            new(Guid.NewGuid(), "Chair", "Ergonomic chair", 179.99m, 10)
+            new(Guid.NewGuid(), creatorUserId, "Laptop", "14-inch laptop", 999.99m, 15),
+            new(Guid.NewGuid(), creatorUserId, "Mouse", "Wireless mouse", 24.99m, 120),
+            new(Guid.NewGuid(), creatorUserId, "Keyboard", "Mechanical keyboard", 89.99m, 60),
+            new(Guid.NewGuid(), creatorUserId, "Monitor", "27-inch monitor", 219.99m, 35),
+            new(Guid.NewGuid(), creatorUserId, "Headphones", "Over-ear headphones", 59.99m, 80),
+            new(Guid.NewGuid(), creatorUserId, "Webcam", "1080p webcam", 39.99m, 50),
+            new(Guid.NewGuid(), creatorUserId, "USB-C Cable", "1m USB-C cable", 9.99m, 200),
+            new(Guid.NewGuid(), creatorUserId, "Dock", "USB-C docking station", 129.99m, 25),
+            new(Guid.NewGuid(), creatorUserId, "SSD", "1TB NVMe SSD", 109.99m, 40),
+            new(Guid.NewGuid(), creatorUserId, "Chair", "Ergonomic chair", 179.99m, 10)
         };
 
-        await dbContext.Users.AddRangeAsync(users, cancellationToken);
         await dbContext.Products.AddRangeAsync(products, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
     }

@@ -8,7 +8,7 @@ public interface IProductService
 
     Task<ProductResponse?> GetByIdAsync(Guid productId, CancellationToken cancellationToken = default);
 
-    Task<ProductResponse> CreateAsync(CreateProductRequest request, CancellationToken cancellationToken = default);
+    Task<ProductResponse> CreateAsync(Guid createdByUserId, CreateProductRequest request, CancellationToken cancellationToken = default);
 
     Task<ProductResponse?> UpdateAsync(Guid productId, UpdateProductRequest request, CancellationToken cancellationToken = default);
 
