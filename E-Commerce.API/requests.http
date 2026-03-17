@@ -1,0 +1,23 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@localhost=https://localhost:7275
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZjA3ODQ0Mi0wNTE5LTRhNjAtYTk0ZS04YTM2Yjg2NTQ3ZmMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjZmMDc4NDQyLTA1MTktNGE2MC1hOTRlLThhMzZiODY1NDdmYyIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ1c2VyMSIsIm5iZiI6MTc3Mzc1NzQ0MiwiZXhwIjoxNzczNzYxMDQyLCJpc3MiOiJFLUNvbW1lcmNlIiwiYXVkIjoiRS1Db21tZXJjZSJ9.F2txlAbbZ5FyOF0ChIzIXZGgFxBUUQfGzQxX0Aqf0hY
+@timeout = 120000   # timeout in milliseconds (here: 120 seconds)
+### POST create product
+POST {{localhost}}/api/products
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+  "name": "Sample Product",
+  "description": "This is a sample product",
+  "price": 19.99,
+  "stock": 100
+}
+
+### POST LOGIN
+POST {{localhost}}/api/users/login
+Content-Type: application/json
+{
+  "EmailOrUsername" : "user1",
+  "Password" : "Password",
+}

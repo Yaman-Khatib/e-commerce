@@ -2,6 +2,7 @@ using E_Commerce.Domain.Orders;
 using E_Commerce.Domain.Products;
 using E_Commerce.Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace E_Commerce.Application.Shared;
 
@@ -11,6 +12,8 @@ public interface IApplicationDbContext
     DbSet<User> Users { get; }
     DbSet<Order> Orders { get; }
     DbSet<OrderItem> OrderItems { get; }
+
+    DatabaseFacade Database { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

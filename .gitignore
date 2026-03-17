@@ -110,3 +110,7 @@ $RECYCLE.BIN/
 .tools/
 /E-Commerce.Infrastructure/dotnet-tools.json
 /.dotnet_home/.dotnet
+/.dotnet_cli_home/.dotnet
+/restore_diag.txt
+/restore_diag2.txt
+*.txt
