@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 using System.Text;
+using E_Commerce_API.BackgroundServices;
 
 namespace E_Commerce_API
 {
@@ -20,6 +21,7 @@ namespace E_Commerce_API
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddEndpointsApiExplorer();
 
@@ -49,6 +51,12 @@ namespace E_Commerce_API
 
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication(builder.Configuration);
+
+            builder.Services.AddOptions<OrderExpirationCancellationOptions>()
+                .Bind(builder.Configuration.GetSection("OrderExpirationCancellation"))
+                .Validate(o => o.IntervalSeconds > 0, "OrderExpirationCancellation:IntervalSeconds must be > 0.");
+
+            builder.Services.AddHostedService<CancelExpiredPendingOrdersBackgroundService>();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
