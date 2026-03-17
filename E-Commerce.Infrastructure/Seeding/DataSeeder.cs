@@ -1,31 +1,26 @@
 using E_Commerce.Domain.Products;
 using E_Commerce.Domain.Users;
 using E_Commerce.Infrastructure.Context;
-using Microsoft.AspNetCore.Identity;
+using E_Commerce.Application.Users.Security;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Infrastructure.Seeding;
 
-public class DataSeeder(ApplicationDbContext dbContext) : IDataSeeder
+public class DataSeeder(ApplicationDbContext dbContext, IPasswordHashService passwordHashService) : IDataSeeder
 {
     public async Task SeedAsync(CancellationToken cancellationToken = default)
     {
         if (await dbContext.Users.AnyAsync(cancellationToken) || await dbContext.Products.AnyAsync(cancellationToken))
             return;
 
-        var passwordHasher = new PasswordHasher<User>();
+        var hashedPassword = passwordHashService.Hash("Password");
         var users = new List<User>
         {
-            CreateUser("user1", "user1@example.com", "User", "One"),
-            CreateUser("user2", "user2@example.com", "User", "Two"),
-            CreateUser("user3", "user3@example.com", "User", "Three")
+            CreateUser("user1", "user1@example.com", "Ahmad","Khatem", hashedPassword),
+            CreateUser("user2", "user2@example.com", "Malek","Ali", hashedPassword),
+            CreateUser("user3", "user3@example.com", "Amr","Haddad",hashedPassword)
         };
 
-        foreach (var user in users)
-        {
-            var hashed = passwordHasher.HashPassword(user, "Password");
-            user.SetPasswordHash(hashed);
-        }
 
         var products = new List<Product>
         {
@@ -46,9 +41,9 @@ public class DataSeeder(ApplicationDbContext dbContext) : IDataSeeder
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private static User CreateUser(string username, string email, string firstName, string lastName)
+    private static User CreateUser(string username, string email, string firstName, string lastName, string? password)
     {
-        return new User(Guid.NewGuid(), firstName, lastName, username, email, "Password");
+        return new User(Guid.NewGuid(), firstName, lastName, username, email, password ?? "seed");
     }
 }
 

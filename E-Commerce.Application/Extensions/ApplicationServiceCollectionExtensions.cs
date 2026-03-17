@@ -1,7 +1,7 @@
 using E_Commerce.Application.Users;
 using E_Commerce.Application.Users.Models;
+using E_Commerce.Application.Users.Security;
 using E_Commerce.Domain.Users;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +15,7 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
-        services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+        services.AddSingleton<IPasswordHashService, BcryptPasswordHashService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
 

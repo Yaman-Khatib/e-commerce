@@ -1,18 +1,18 @@
 using E_Commerce.Application.Shared;
 using E_Commerce.Application.Users.Models;
+using E_Commerce.Application.Users.Security;
 using E_Commerce.Domain.Users;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Application.Users;
 
 public sealed class UserService(
     IApplicationDbContext dbContext,
-    IPasswordHasher<User> passwordHasher,
+    IPasswordHashService passwordHashService,
     ITokenService tokenService) : IUserService
 {
     private readonly IApplicationDbContext _dbContext = dbContext;
-    private readonly IPasswordHasher<User> _passwordHasher = passwordHasher;
+    private readonly IPasswordHashService _passwordHashService = passwordHashService;
     private readonly ITokenService _tokenService = tokenService;
 
     public async Task<UserResponse> SignupAsync(SignupRequest request, CancellationToken cancellationToken = default)
@@ -28,16 +28,15 @@ public sealed class UserService(
             throw new InvalidOperationException("A user with the same email or username already exists.");
         }
 
+        var hashedPassword = _passwordHashService.Hash(request.Password);
+
         var user = new User(
             Guid.NewGuid(),
             request.FirstName,
             request.LastName,
             request.Username,
             request.Email,
-            passwordHash: string.Empty);
-
-        var hashedPassword = _passwordHasher.HashPassword(user, request.Password);
-        user.SetPasswordHash(hashedPassword);
+            passwordHash: hashedPassword);
 
         await _dbContext.Users.AddAsync(user, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
@@ -64,8 +63,7 @@ public sealed class UserService(
             return null;
         }
 
-        var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-        if (verificationResult == PasswordVerificationResult.Failed)
+        if (!_passwordHashService.Verify(request.Password, user.PasswordHash))
         {
             return null;
         }
@@ -85,9 +83,9 @@ public sealed class UserService(
         var newUsername = request.Username.Trim();
 
         var emailChanged = !string.Equals(user.Email, newEmail, StringComparison.OrdinalIgnoreCase);
-        var usernameChanged = !string.Equals(user.Username, newUsername, StringComparison.OrdinalIgnoreCase);
+        var userNameChanged = !string.Equals(user.Username, newUsername, StringComparison.OrdinalIgnoreCase);
 
-        if (emailChanged || usernameChanged)
+        if (emailChanged || userNameChanged)
         {
             var exists = await _dbContext.Users.AnyAsync(
                 u => u.Id != userId &&
@@ -107,7 +105,7 @@ public sealed class UserService(
 
         if (!string.IsNullOrWhiteSpace(request.Password))
         {
-            var hashedPassword = _passwordHasher.HashPassword(user, request.Password);
+            var hashedPassword = _passwordHashService.Hash(request.Password);
             user.SetPasswordHash(hashedPassword);
         }
 
