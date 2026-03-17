@@ -17,6 +17,8 @@ namespace E_Commerce.Infrastructure.Context
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
+        DatabaseFacade IApplicationDbContext.Database => base.Database;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
