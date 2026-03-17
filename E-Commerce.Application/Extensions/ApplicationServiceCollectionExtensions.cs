@@ -1,6 +1,7 @@
 using E_Commerce.Application.Users;
 using E_Commerce.Application.Users.Models;
 using E_Commerce.Application.Users.Security;
+using E_Commerce.Application.Shared;
 using E_Commerce.Domain.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ public static class ApplicationServiceCollectionExtensions
         IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+        services.Configure<CacheOptions>(configuration.GetSection("Cache"));
         services.AddHttpContextAccessor();
         services.AddSingleton<IPasswordHashService, BcryptPasswordHashService>();
         services.AddScoped<ITokenService, TokenService>();

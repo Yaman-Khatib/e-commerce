@@ -22,6 +22,7 @@ namespace E_Commerce_API
 
             builder.Services.AddControllers();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddMemoryCache();
 
             builder.Services.AddEndpointsApiExplorer();
 

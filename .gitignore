@@ -114,3 +114,4 @@ $RECYCLE.BIN/
 /restore_diag.txt
 /restore_diag2.txt
 *.txt
+/E-Commerce.API/Properties/PublishProfiles/site59493-WebDeploy.pubxml
