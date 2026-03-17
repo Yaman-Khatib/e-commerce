@@ -25,7 +25,7 @@ namespace E_Commerce.Infrastructure.Context
             builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return base.SaveChangesAsync(cancellationToken);
         }
