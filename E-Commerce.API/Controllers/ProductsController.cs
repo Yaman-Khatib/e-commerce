@@ -2,6 +2,7 @@ using E_Commerce.Application.Products;
 using E_Commerce.Application.Products.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace E_Commerce_API.Controllers;
 
@@ -36,7 +37,13 @@ public class ProductsController(IProductService productService) : ControllerBase
     [Authorize]
     public async Task<ActionResult<ProductResponse>> Create([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
     {
-        var created = await _productService.CreateAsync(request, cancellationToken);
+        var userId = GetCurrentUserId();
+        if (userId is null)
+        {
+            return Unauthorized();
+        }
+
+        var created = await _productService.CreateAsync(userId.Value, request, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
@@ -67,6 +74,14 @@ public class ProductsController(IProductService productService) : ControllerBase
         }
 
         return NoContent();
+    }
+
+    private Guid? GetCurrentUserId()
+    {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                          ?? User.FindFirstValue("sub");
+
+        return Guid.TryParse(userIdClaim, out var userId) ? userId : null;
     }
 }
 
