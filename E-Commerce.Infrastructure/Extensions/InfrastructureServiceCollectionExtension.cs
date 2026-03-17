@@ -1,3 +1,4 @@
+using E_Commerce.Application.Shared;
 using E_Commerce.Infrastructure.Context;
 using E_Commerce.Infrastructure.Seeding;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ namespace E_Commerce.Infrastructure.Extensions
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IDataSeeder, DataSeeder>();
             return services;
         }
