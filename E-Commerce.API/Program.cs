@@ -1,5 +1,7 @@
 
+using E_Commerce.Application.Extensions;
 using E_Commerce_API.Extensions;
+using E_Commerce_API.Middleware;
 using E_Commerce.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +19,7 @@ namespace E_Commerce_API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();                        
+            builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
 
@@ -46,6 +48,7 @@ namespace E_Commerce_API
             });
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApplication(builder.Configuration);
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -69,8 +72,7 @@ namespace E_Commerce_API
 
             builder.Services.AddAuthorization();
 
-            var app = builder.Build();
-
+            var app = builder.Build();            
             app.EnsureDatabaseAndSeedAsync().GetAwaiter().GetResult();
 
             // Configure the HTTP request pipeline.
@@ -80,7 +82,10 @@ namespace E_Commerce_API
                 app.UseSwaggerUI();
             }
 
+
+            app.UseMiddleware<HandleExceptionMiddleware>();
             app.UseHttpsRedirection();
+
 
             app.UseAuthentication();
             app.UseAuthorization();
