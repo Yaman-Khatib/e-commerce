@@ -41,8 +41,8 @@ We use **pessimistic locking** for inventory management to ensure stock consiste
 
 ## API Endpoints
 
-All endpoints are documented in **Swagger** at:
-[https://e-commerce.monsterasp.net](http://e-commerce-yaman.runasp.net/)
+All endpoints are documented in **Scalar** at:
+https://localhost:7275/scalar
 
 
 Key endpoints include:
