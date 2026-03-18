@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using E_Commerce.Application.Products;
 using E_Commerce.Application.Orders;
+using E_Commerce.Application.ImportExport;
 
 namespace E_Commerce.Application.Extensions;
 
@@ -24,6 +25,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IImportExportService, ImportExportService>();
 
         return services;
     }

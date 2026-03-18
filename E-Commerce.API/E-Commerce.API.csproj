@@ -7,10 +7,10 @@
     <RootNamespace>E_Commerce_API</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.5" />
+  <ItemGroup>        
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />        
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />        
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.10" />
   </ItemGroup>
 
   <ItemGroup>
