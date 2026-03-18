@@ -55,7 +55,7 @@ Key endpoints include:
 
 ## Prerequisites
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)  
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)  
 - SQL Server  
 - Git  
 
@@ -74,9 +74,9 @@ cd MonsterShop-API
 dotnet ef migrations add "InitialMigration"
 dotnet ef database update
 ```
-4. Open Swagger to test endpoints:
+4. Open Scalar to test endpoints:
 ```
-https://localhost:5001/swagger
+https://localhost:5001/scalar
 ```
 ---
 ## Future Improvements

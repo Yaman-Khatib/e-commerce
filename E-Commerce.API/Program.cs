@@ -5,9 +5,7 @@ using E_Commerce_API.BackgroundServices;
 using E_Commerce_API.Extensions;
 using E_Commerce_API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.OpenApi;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 using System.Text;
 
@@ -26,13 +24,7 @@ namespace E_Commerce_API
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddMemoryCache();
 
-            builder.Services.AddEndpointsApiExplorer();
-
-            builder.Services.AddOpenApi( options =>
-            {
-                                
-            }
-                );
+            builder.Services.AddOpenApiDocumentation();
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication(builder.Configuration);
 
