@@ -1,14 +1,16 @@
 
 using E_Commerce.Application.Extensions;
+using E_Commerce.Infrastructure.Extensions;
+using E_Commerce_API.BackgroundServices;
 using E_Commerce_API.Extensions;
 using E_Commerce_API.Middleware;
-using E_Commerce.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-
+using Scalar.AspNetCore;
 using System.Text;
-using E_Commerce_API.BackgroundServices;
+
 
 namespace E_Commerce_API
 {
@@ -26,30 +28,11 @@ namespace E_Commerce_API
 
             builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.AddSwaggerGen(options =>
+            builder.Services.AddOpenApi( options =>
             {
-                const string SecuritySchemeId = "BearerAuth";
-
-                options.AddSecurityDefinition(SecuritySchemeId, new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme"
-                });
-                
-                options.AddSecurityRequirement(doc =>
-                {
-                    var schemeRef = new OpenApiSecuritySchemeReference(SecuritySchemeId);
-                    return new OpenApiSecurityRequirement
-                  {
-                      { schemeRef, new List<string>() }
-                        };
-                     });
-            });
-
+                                
+            }
+                );
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication(builder.Configuration);
 
@@ -82,13 +65,19 @@ namespace E_Commerce_API
             builder.Services.AddAuthorization();
 
             var app = builder.Build();            
-            app.EnsureDatabaseAndSeedAsync().GetAwaiter().GetResult();
+            //app.EnsureDatabaseAndSeedAsync().GetAwaiter().GetResult();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.MapOpenApi(); // exposes /openapi/v1.json
+
+                
+                app.MapScalarApiReference(options =>
+                {
+                    options.Title = "E-Commerce Project";
+                    options.Theme = ScalarTheme.BluePlanet;
+                });
             }
 
 
