@@ -16,13 +16,11 @@ public sealed class ProductService(
     private readonly IMemoryCache _memoryCache = memoryCache;
     private readonly IOptions<CacheOptions> _cacheOptions = cacheOptions;
 
-    private const string ProductsAllCacheKey = "products:all";
-
     public async Task<IReadOnlyList<ProductResponse>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var ttlSeconds = _cacheOptions.Value.ProductsLifetimeSeconds;
         if (ttlSeconds > 0 &&
-            _memoryCache.TryGetValue(ProductsAllCacheKey, out IReadOnlyList<ProductResponse>? cached) &&
+            _memoryCache.TryGetValue(ProductsCacheKeys.All, out IReadOnlyList<ProductResponse>? cached) &&
             cached is not null)
         {
             return cached;
@@ -45,7 +43,7 @@ public sealed class ProductService(
         if (ttlSeconds > 0)
         {
             _memoryCache.Set(
-                ProductsAllCacheKey,
+                ProductsCacheKeys.All,
                 products,
                 new MemoryCacheEntryOptions
                 {
@@ -85,7 +83,7 @@ public sealed class ProductService(
 
         await _dbContext.Products.AddAsync(product, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        _memoryCache.Remove(ProductsAllCacheKey);
+        _memoryCache.Remove(ProductsCacheKeys.All);
 
         return MapToResponse(product);
     }
@@ -104,7 +102,7 @@ public sealed class ProductService(
         product.SetStock(request.StockQuantity);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        _memoryCache.Remove(ProductsAllCacheKey);
+        _memoryCache.Remove(ProductsCacheKeys.All);
 
         return MapToResponse(product);
     }
@@ -119,7 +117,7 @@ public sealed class ProductService(
 
         _dbContext.Products.Remove(product);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        _memoryCache.Remove(ProductsAllCacheKey);
+        _memoryCache.Remove(ProductsCacheKeys.All);
 
         return true;
     }
